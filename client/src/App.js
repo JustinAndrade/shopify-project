@@ -132,11 +132,7 @@ function App() {
     setQuery(event.target.value);
   };
 
-  const menuId = "primary-search-account-menu";
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-
-  useEffect(() => {
+  const searchMovies = () => {
     const API_KEY = process.env.DB_KEY;
     fetch(`http://www.omdbapi.com/?s=${query}&apikey=3fee03f0`)
       .then((res) => res.json())
@@ -146,6 +142,10 @@ function App() {
           setMovieList(movies);
         }
       });
+  };
+
+  useEffect(() => {
+    searchMovies();
   });
 
   return (

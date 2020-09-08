@@ -95,3 +95,10 @@
   -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
   transform: translateX(-9%) translateY(-25%) rotate(45deg);
 }
+.nominated {
+  background: #004c3f;
+}
+
+.nominated:after {
+  background: red;
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -16,6 +16,8 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import GradeIcon from "@material-ui/icons/Grade";
+
+import shopifyPlaceholder from "../../assets/placeholder.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,12 +41,27 @@ export default function MovieCard({
   nominations,
   setNominations,
   poster,
+  key,
+  id,
 }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
 
-  const handleExpandClick = ({ nominations, setNominations }) => {
-    setExpanded(!expanded);
+  const nominateMovie = () => {
+    console.log("clicked");
+    if (nominations.includes(id)) {
+      console.log("already in here");
+    } else {
+      setNominations([...nominations, { id, title, year }]);
+    }
+  };
+
+  const unnominateMovie = (id) => {
+    console.log(id);
+    for (let i in nominations) {
+      if (id === nominations[i]) {
+        nominations.splice(i, 1);
+      }
+    }
   };
 
   return (
@@ -54,18 +71,32 @@ export default function MovieCard({
         title={title}
         subheader={`(${year})`}
       />
-      <img
-        src={poster}
-        alt={title}
-        style={{ width: "100%", height: "230px" }}
-      />
+      {poster === "N/A" && (
+        <img
+          src={shopifyPlaceholder}
+          alt={title}
+          style={{ width: "100%", height: "230px" }}
+        />
+      )}
+      {poster !== "N/A" && (
+        <img
+          src={poster}
+          alt={title}
+          style={{ width: "100%", height: "230px" }}
+        />
+      )}
       {/* <CardMedia className={classes.media} image={poster} title={title} /> */}
+
       <button
-        className="nominate"
-        onClick={() => setNominations([...nominations, data])}
+        disabled={
+          nominations.length >= 5 && !nominations.includes(id) ? true : false
+        }
+        className={nominations.includes(id) ? "nominate nominated" : "nominate"}
+        onClick={
+          !nominations.includes(id) ? nominateMovie : () => unnominateMovie(id)
+        }
       >
-        {" "}
-        <span>Nominate</span>{" "}
+        <span>{nominations.includes(id) ? "NOMINATED" : "Nominate"}</span>
       </button>
     </Card>
   );

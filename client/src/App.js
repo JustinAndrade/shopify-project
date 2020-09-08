@@ -1,25 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
 import LocalMoviesIcon from "@material-ui/icons/LocalMovies";
 import Container from "@material-ui/core/Container";
+
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import DraftsIcon from "@material-ui/icons/Drafts";
+import SendIcon from "@material-ui/icons/Send";
 
 import MovieList from "./components/Movies/MovieList";
 
 import "./App.css";
+
+const StyledMenu = withStyles({
+  paper: {
+    border: "1px solid #d3d4d5",
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "center",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "center",
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {},
+}))(MenuItem);
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -89,7 +115,18 @@ function App() {
   const [nominations, setNominations] = useState([]);
   const [movieList, setMovieList] = useState([]);
   const [query, setQuery] = useState("");
+  const [myNominations, setMyNominations] = useState([]);
   const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleChange = (event) => {
     setQuery(event.target.value);
@@ -105,7 +142,6 @@ function App() {
       .then((res) => res.json())
       .then((result) => {
         let movies = result.Search;
-        console.log(result.Search);
         if (movies) {
           setMovieList(movies);
         }
@@ -140,7 +176,11 @@ function App() {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
+              <IconButton
+                onClick={handleClick}
+                aria-label="show 4 new mails"
+                color="inherit"
+              >
                 <Typography style={{ fontSize: "16px", marginRight: "5px" }}>
                   Nominations
                 </Typography>
@@ -148,6 +188,21 @@ function App() {
                   <LocalMoviesIcon />
                 </Badge>
               </IconButton>
+              <StyledMenu
+                id="customized-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                {nominations.map((nomination) => {
+                  return (
+                    <StyledMenuItem>
+                      <ListItemText primary={nomination} />
+                    </StyledMenuItem>
+                  );
+                })}
+              </StyledMenu>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-label="show 4 new mails" color="inherit">
@@ -174,6 +229,8 @@ function App() {
           setNominations={setNominations}
           list={movieList}
           query={query}
+          myNominations={myNominations}
+          setMyNominations={setMyNominations}
         />
       </Container>
     </div>

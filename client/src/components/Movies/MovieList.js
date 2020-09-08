@@ -88,23 +88,25 @@ export default function MovieList({
   setNominations,
   list,
   query,
+  myNominations,
+  setMyNominations,
 }) {
   const classes = useStyles();
   if (list.length > 1 && query.length >= 3) {
-    console.log(query);
     return (
       <React.Fragment>
         {list.map((data) => {
-          console.log(data);
           return (
             <MovieCard
               poster={data.Poster}
               key={data.imdbID}
-              data={data}
+              id={data.imdbID}
               title={data.Title}
               year={data.Year}
               nominations={nominations}
               setNominations={setNominations}
+              myNominations={myNominations}
+              setMyNominations={setMyNominations}
             />
           );
         })}

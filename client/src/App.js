@@ -134,7 +134,7 @@ function App() {
 
   const searchMovies = () => {
     const API_KEY = process.env.DB_KEY;
-    fetch(`http://www.omdbapi.com/?s=${query}&apikey=3fee03f0`)
+    fetch(`https://www.omdbapi.com/?s=${query}&apikey=3fee03f0`)
       .then((res) => res.json())
       .then((result) => {
         let movies = result.Search;

@@ -44,13 +44,11 @@ export default function MovieCard({
   key,
   id,
 }) {
-  console.log(nominations);
   const classes = useStyles();
 
   const nominateMovie = () => {
     const nomination = { id, title, year };
     if (nominations.includes(id)) {
-      console.log("already in here");
     } else {
       nominations.push(nomination);
       if (nominations.length === 5) {
@@ -60,7 +58,6 @@ export default function MovieCard({
   };
 
   const unnominateMovie = (id) => {
-    console.log(id);
     for (let i in nominations) {
       if (id === nominations[i].id) {
         nominations.splice(i, 1);

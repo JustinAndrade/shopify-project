@@ -115,7 +115,17 @@ export default function MovieList({
   } else if (query === "") {
     return (
       <React.Fragment>
-        <h2>Start Searching... </h2>
+        <div>
+          <h2>Start Searching... </h2>
+          <span>Thanks for participating in the Shoppies!</span>
+          <div>
+            <p>
+              Please use the searchbar above and select any movie you would like
+              to recommend. Once you have selected 5 movies you will receive an
+              alert letting you know you are good to go!
+            </p>
+          </div>
+        </div>
       </React.Fragment>
     );
   } else {

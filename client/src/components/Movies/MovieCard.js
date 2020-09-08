@@ -44,21 +44,25 @@ export default function MovieCard({
   key,
   id,
 }) {
+  console.log(nominations);
   const classes = useStyles();
 
   const nominateMovie = () => {
-    console.log("clicked");
+    const nomination = { id, title, year };
     if (nominations.includes(id)) {
       console.log("already in here");
     } else {
-      setNominations([...nominations, { id, title, year }]);
+      nominations.push(nomination);
+      if (nominations.length === 5) {
+        window.alert("You have successfully nominated 5 movies!");
+      }
     }
   };
 
   const unnominateMovie = (id) => {
     console.log(id);
     for (let i in nominations) {
-      if (id === nominations[i]) {
+      if (id === nominations[i].id) {
         nominations.splice(i, 1);
       }
     }
@@ -89,14 +93,24 @@ export default function MovieCard({
 
       <button
         disabled={
-          nominations.length >= 5 && !nominations.includes(id) ? true : false
+          nominations.length >= 5 && !nominations.some((el) => el.id === id)
+            ? true
+            : false
         }
-        className={nominations.includes(id) ? "nominate nominated" : "nominate"}
+        className={
+          nominations.some((el) => el.id === id)
+            ? "nominate nominated"
+            : "nominate"
+        }
         onClick={
-          !nominations.includes(id) ? nominateMovie : () => unnominateMovie(id)
+          !nominations.some((el) => el.id === id)
+            ? nominateMovie
+            : () => unnominateMovie(id)
         }
       >
-        <span>{nominations.includes(id) ? "NOMINATED" : "Nominate"}</span>
+        <span>
+          {nominations.some((el) => el.id === id) ? "NOMINATED" : "Nominate"}
+        </span>
       </button>
     </Card>
   );

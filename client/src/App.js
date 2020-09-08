@@ -198,7 +198,10 @@ function App() {
                 {nominations.map((nomination) => {
                   return (
                     <StyledMenuItem>
-                      <ListItemText primary={nomination} />
+                      <ListItemText
+                        primary={nomination.title}
+                        secondary={nomination.year}
+                      />
                     </StyledMenuItem>
                   );
                 })}

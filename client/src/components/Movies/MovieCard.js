@@ -21,7 +21,7 @@ import shopifyPlaceholder from "../../assets/placeholder.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "30%",
+    width: "40%",
     maxWidth: 200,
     marginTop: 15,
     marginBottom: 25,
@@ -47,7 +47,7 @@ export default function MovieCard({
   const classes = useStyles();
 
   const nominateMovie = () => {
-    const nomination = { id, title, year };
+    const nomination = { id, title, year, poster };
     if (nominations.includes(id)) {
     } else {
       nominations.push(nomination);

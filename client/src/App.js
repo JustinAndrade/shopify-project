@@ -12,12 +12,12 @@ import Badge from "@material-ui/core/Badge";
 import SearchIcon from "@material-ui/icons/Search";
 import LocalMoviesIcon from "@material-ui/icons/LocalMovies";
 import Container from "@material-ui/core/Container";
-
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import DraftsIcon from "@material-ui/icons/Drafts";
 import SendIcon from "@material-ui/icons/Send";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 
 import MovieList from "./components/Movies/MovieList";
 
@@ -144,6 +144,14 @@ function App() {
       });
   };
 
+  const unnominateMovie = (id) => {
+    for (let i in nominations) {
+      if (id === nominations[i].id) {
+        nominations.splice(i, 1);
+      }
+    }
+  };
+
   useEffect(() => {
     searchMovies();
   });
@@ -196,11 +204,22 @@ function App() {
                 onClose={handleClose}
               >
                 {nominations.map((nomination) => {
+                  console.log(nomination);
                   return (
                     <StyledMenuItem>
+                      <img
+                        className="menuImg"
+                        src={nomination.poster}
+                        alt={nomination.title}
+                      />
                       <ListItemText
+                        style={{ paddingRight: "30px" }}
                         primary={nomination.title}
                         secondary={nomination.year}
+                      />
+                      <RemoveCircleIcon
+                        onClick={() => unnominateMovie(nomination.id)}
+                        htmlColor="red"
                       />
                     </StyledMenuItem>
                   );
